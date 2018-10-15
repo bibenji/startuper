@@ -1,0 +1,270 @@
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('./fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('./fonts/opensans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('./fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('./fonts/opensans-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sansbold';
+    src: url('./fonts/opensans-bold-webfont.woff2') format('woff2'),
+         url('./fonts/opensans-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	background-color: lavender;
+	font-family: 'open_sansregular';
+	color: rgb(61, 68, 81);
+}
+
+.custom-navbar {
+  position: fixed;  
+  width: 100%;
+  z-index: 1000;
+  line-height: 50px;
+  font-size: 100%;
+  text-align: center;
+}
+.custom-navbar ul {
+  padding: 0px;
+  margin: 0px;
+}
+.custom-navbar ul li {
+  display: inline-block;
+  margin: 0px 10px 10px;  
+}
+.custom-navbar ul li a {
+	color: white;
+	padding-bottom: 10px;
+	border-bottom: solid 2px rgba(0,0,0,0);	
+}
+.custom-navbar ul li a:hover {
+	text-decoration: none;
+	border-bottom: solid 2px rgb(26,119,212);	
+}
+
+.custom-navbar-bolded {	
+	background-color: white;	
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);
+	transition: background-color 250ms linear;
+}
+.custom-navbar-bolded ul li a {
+	color: #3d4451;
+}
+.custom-navbar .lien-actif a {
+	color: rgb(26,119,212);
+	border-bottom: solid 2px rgb(26,119,212);	
+}
+
+header {  
+  position: relative;    
+  opacity: 0.9;  
+}
+header .header-background {
+	background-image: url("background.jpg");
+	height: 400px;
+}
+header .header-content {
+  position: relative;  
+  width: 1000px;
+  max-width: 90%;  
+  margin: -300px auto 0px;
+  box-shadow: 1px 1px 3px 1px grey;  
+}
+header .header-top {
+  background-color: white;
+  padding: 15px;  
+}
+header .header-top #my-photo {
+  width: 100%;
+}
+header .header-footer {
+  background-color: rgb(26, 119, 212);  
+  color: white;
+  padding: 15px 0px;
+  font-size: 125%;  
+}
+header .header-footer .col {
+
+}
+
+#header-bonjour {
+	font-family: 'open_sansbold';
+	background-color: rgb(26, 119, 212);
+	color: white;
+	display: inline-block;
+	font-size: 125%;
+	margin: 10px 0px;
+	padding: 10px 20px;
+}
+
+main { 
+  padding: 5px;
+  margin: 0px auto;  
+  width: 1000px;
+  max-width: 90%;  
+}
+
+#download-resume-btn {
+	font-family: 'open_sansbold';
+	color: #3d4451;
+	border: 1px solid #cbcdcf;
+	background: transparent;
+	box-shadow: none;
+}
+#download-resume-btn:hover {
+	box-shadow: 1px 1px 3px 1px grey;
+	transition: box-shadow 0.25s;
+}
+
+.card-special {
+	border-top: solid 5px rgb(26, 119, 212);
+}
+
+#before-description,
+#before-blog,
+#before-skills,
+#before-technologies,
+#before-experience,
+#before-education,
+#before-portfolio,
+#before-interests,
+#before-contact {
+	position: relative;
+	top: -75px;	
+}
+
+header,
+#description,
+#blog,
+#skills,
+#technologies,
+#experience,
+#education,
+#portfolio,
+#interests,
+#contact {	
+	margin-bottom: 40px;
+}
+
+#blog h2,
+#skills h2,
+#technologies h2,
+#experience h2,
+#education h2,
+#portfolio h2,
+#interests h2,
+#contact h2 {
+	font-family: 'open_sanssemibold';
+	font-size: 250%;
+	margin-bottom: 20px;
+} 
+
+#skills .card-body {
+	text-align: left;
+}
+#skills .col .fas,
+#skills .col .far {
+	color: rgb(26, 119, 212);
+	font-size: 200%;
+	margin-bottom: 10px;	
+}
+#skills .card-body h4 {
+	font-size: 125%;
+	padding-bottom: 15px;
+	border-bottom: 3px solid #d8dadc;
+}
+
+#portfolio h4 {
+	margin: 10px auto 20px;
+}
+
+#interests .row {
+	margin-top: 40px;
+}
+#interests i {	
+	font-size: 350%;
+}
+
+.menu-burger-btn {
+	border: solid 1px #d1d1d1;
+	background-color: rgba(0,0,0,0);
+	line-height: 30px;	
+	vertical-align: bottom;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.menu-burger-btn:hover {
+	background-color: #d1d1d1;
+}
+
+#menu-expanded {
+	display: block;	
+}
+#menu-burger {
+	display: none;	
+	line-height: 50px;
+}
+
+#articles-carrousel {
+	overflow: hidden;
+}
+#articles-carrousel-container {	
+	width: 300%;	
+}
+
+.carrousel-position1 {
+	margin-left: 0%;
+	transition: margin-left 0.5s;
+}
+.carrousel-position2 {
+	margin-left: -100%;
+	transition: margin-left 0.5s;
+}
+.carrousel-position3 {
+	margin-left: -200%;
+	transition: margin-left 0.5s;
+}
+
+.blog-article {
+	display: inline-block;
+	width: 33%;	
+}
+
+	
+@media screen and (max-width: 1000px) {
+	
+	#menu-burger {
+		display: block;		
+	}
+	
+	.custom-navbar #menu-expanded {
+		display: block;		
+		height: 0px;		
+		overflow: hidden;
+	}
+	.custom-navbar-visible {
+		background-color: white;
+	}
+	.custom-navbar-visible #menu-expanded {
+		height: 100%;	
+	}
+	.custom-navbar-visible #menu-expanded li a {
+		color: #3d4451;
+	}
+	.custom-navbar-visible #menu-expanded li {
+		display: block;
+		margin: 0px auto;
+	}	
+}
