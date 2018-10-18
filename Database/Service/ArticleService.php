@@ -8,29 +8,7 @@ use Database\{Connection, Finder};
 
 class ArticleService extends AbstractService
 {
-	protected $connection;
-	
-	public function __construct(Connection $connection)
-	{		
-		$this->connection = $connection;
-	}
-	
-	public function fetchById($id)
-	{
-		$stmt = $this->connection->pdo->prepare(
-			Finder::select('articles')
-				->where('id = :id')
-				->getSql()
-		);		
-		$stmt->execute(['id' => (int) $id]);
-		
-// 		return $stmt->fetchObject('Entity\Article');
 
-// 		$stmt->setFetchMode(PDO::FETCH_INTO, new Article());
-// 		return $stmt->fetch();
-
-		return Article::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new Article());
-	}
 	
 	public function fetchByPublished($published = TRUE)
 	{		
@@ -45,6 +23,23 @@ class ArticleService extends AbstractService
 		}
 	}
 	
+	public function fetchById($id)
+	{
+		$stmt = $this->connection->pdo->prepare(
+				Finder::select('articles')
+				->where('id = :id')
+				->getSql()
+				);
+		$stmt->execute(['id' => (int) $id]);
+		
+		// 		return $stmt->fetchObject('Entity\Article');
+		
+		// 		$stmt->setFetchMode(PDO::FETCH_INTO, new Article());
+		// 		return $stmt->fetch();
+		
+		return Article::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new Article());
+	}
+	
 	public function save($instance)
 	{
 		if ($instance->getId() && $this->fetchById($instance->getId())) {
@@ -52,6 +47,14 @@ class ArticleService extends AbstractService
 		} else {
 			return $this->doInsert($instance);
 		}
+	}
+	
+	public function remove($instance)
+	{
+		$sql = 'DELETE FROM ' . $instance->getTableName() . ' WHERE id = :id';
+		$stmt = $this->connection->pdo->prepare($sql);
+		$stmt->execute(['id' => $instance->getId()]);
+		return ($this->fetchById($instance->getId())) ? FALSE : TRUE;
 	}
 	
 	protected function doUpdate($instance)
@@ -106,13 +109,5 @@ class ArticleService extends AbstractService
 		}
 		
 		return $success;
-	}
-	
-	public function remove($instance)
-	{
-		$sql = 'DELETE FROM ' . $instance->getTableName() . ' WHERE id = :id';
-		$stmt = $this->connection->pdo->prepare($sql);
-		$stmt->execute(['id' => $instance->getId()]);
-		return ($this->fetchById($instance->getId())) ? FALSE : TRUE;
 	}
 }
