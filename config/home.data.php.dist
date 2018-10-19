@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'username' => '',
+    'age' => '',
+    'adresse' => '',
+    'cp' => '',
+    'ville' => '',
+    'email' => '',
+    'telephone' => '',
+    'description' => '',
+    'articles' => [
+    	['title' => '', 'date' => ''],
+    ],
+    'skills' => [
+        ['name' => '', 'icon' => '', 'content' => ''],
+    ],
+    'technologies' => [
+        ['name' => '', 'level' => ''],
+    ],
+    'experiences' => [
+        ['name' => '', 'date' => '', 'content' => '', 'missions' => [            
+            ['name' => '', 'content' => ''],
+        ]]
+    ],
+    'formations' => [
+        ['name' => '', 'date' => '', 'school' => '', 'content' => ''],
+    ],
+    'portfolio' => [
+        'description' => 'Quelques-uns de mes projets personnels...',
+        'content' => [
+            ['name' => '', 'src' => ''],
+        ]
+    ],
+    'interests' => [
+        ['icon' => ''],
+    ],
+];

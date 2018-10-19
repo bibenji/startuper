@@ -1,0 +1,11 @@
+<?php
+
+return [ 
+	'driver' => '',
+	'host' => '',
+	'port' => '',
+	'dbname' => '',
+	'user' => '',
+	'password' => '',
+	'errmode' => PDO::ERRMODE_EXCEPTION 
+];

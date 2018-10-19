@@ -5,14 +5,26 @@ namespace View;
 class BlogView implements ViewInterface
 {
 	public function render($parameters)
-	{		
-		$iterator = $parameters['iterator'];
+	{	
+	    
+		$iterator = $parameters['iterator'];			
 		
 		ob_start();
+?>
+    	
+<div style="height: 75px;"></div>  	
+      		
+<!-- <h1 class="text-center">Blog</h1> -->
+
+<main>        
+	<div class="row">
+		<div class="col-md-8">
 		
-		foreach ($iterator as $article) {
-			$categories = explode(',', $article->getCategories());			
-			?>
+		<?php		
+            foreach ($iterator as $article) {                
+                $categories = explode(',', $article->getCategories());		
+		?>
+		
 			<div class="card">
 		    	<div class="card-body">    		
 		    		<h2><?php echo $article->getTitle() ?></h2>
@@ -46,12 +58,56 @@ class BlogView implements ViewInterface
 		    		</div>
 		    	</div>    		
 		    </div>
-			<?php
-		}
+		    
+		<?php 
+            }
+		?>
+				
+        	<div class="row">
+            	<div class="col text-left">
+            		<a href="">Plus récents</a>
+            	</div>
+            	<div class="col text-center">
+            		<a href="index.html">Retour</a>
+            	</div>
+            	<div class="col text-right">
+            		<a href="">Plus anciens</a>
+            	</div>    		
+            </div>    		
+		</div>
+		<div class="col-md-4">    			
+			<h4>Catégories</h4>
+			<ul>
+				<li>PHP (2)</li>
+				<li>Symfony (1)</li>
+				<li>Serveur (1)</li>
+				<li>Algorythme (1)</li>
+				<li>Pi (1)</li>
+			</ul>    			
+			<hr />    			
+			<h4>Derniers articles</h4>
+			<ul>
+				<li>Blablabla 1</li>
+				<li>Blablabla 2</li>
+				<li>Blablabla 3</li>
+			</ul>    			
+			<hr />    			
+			<h4>Articles les plus commentés</h4>
+			<ul>
+				<li>Blablabla 1</li>
+				<li>Blablabla 2</li>
+				<li>Blablabla 3</li>
+			</ul>    			
+		</div>
+	</div>            		
+</main>
 
+<br />
+		    
+<?php
 		$viewContent = ob_get_contents();
 		ob_end_clean();
-		
+				
 		return $viewContent;
 	}
 }
