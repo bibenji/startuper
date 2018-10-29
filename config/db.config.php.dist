@@ -7,5 +7,6 @@ return [
 	'dbname' => '',
 	'user' => '',
 	'password' => '',
+	'charset' => 'utf8',
 	'errmode' => PDO::ERRMODE_EXCEPTION 
 ];

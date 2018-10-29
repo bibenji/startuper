@@ -4,5 +4,5 @@ namespace View;
 
 interface ViewInterface
 {
-	public function render($parameters);	
+    public function render($parameters);
 }
