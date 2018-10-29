@@ -274,3 +274,49 @@ main {
 		margin: 0px auto;
 	}
 }
+
+#article-content img {
+    width: 25%;
+    float: left;
+    margin: 0px 15px 15px 0px;
+}
+.author-description {
+    background-color: lightgoldenrodyellow;
+	padding: 15px;
+}
+
+main {
+	font-size: 90%;
+}
+
+main .card {
+	margin-bottom: 30px;
+	border-top: solid 5px rgb(26, 119, 212);
+}
+
+main .card-body img {
+	width: 100%;
+}
+
+main ul {
+	list-style: circle inside;
+	margin: 0px;
+	padding: 0px;
+}
+
+main ul li {
+	border-bottom: solid 1px #c6c6c6;
+	padding: 10px 0px;
+}
+
+main ul li:last-of-type {
+	border-bottom: none;
+}
+
+footer {
+    background-color: #484849;
+    color: white;
+    width: 100%;
+    padding: 75px 0px 50px;
+    margin: 0px;
+}
