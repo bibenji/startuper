@@ -1,25 +1,25 @@
 @font-face {
-    font-family: 'open_sansregular';
-    src: url('./fonts/opensans-regular-webfont.woff2') format('woff2'),
-         url('./fonts/opensans-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'open_sansregular';
+	src: url('./fonts/opensans-regular-webfont.woff2') format('woff2'),
+		url('./fonts/opensans-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-    font-family: 'open_sanssemibold';
-    src: url('./fonts/opensans-semibold-webfont.woff2') format('woff2'),
-         url('./fonts/opensans-semibold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'open_sanssemibold';
+	src: url('./fonts/opensans-semibold-webfont.woff2') format('woff2'),
+		url('./fonts/opensans-semibold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-    font-family: 'open_sansbold';
-    src: url('./fonts/opensans-bold-webfont.woff2') format('woff2'),
-         url('./fonts/opensans-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'open_sansbold';
+	src: url('./fonts/opensans-bold-webfont.woff2') format('woff2'),
+		url('./fonts/opensans-bold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 body {
@@ -29,74 +29,87 @@ body {
 }
 
 .custom-navbar {
-  position: fixed;  
-  width: 100%;
-  z-index: 1000;
-  line-height: 50px;
-  font-size: 100%;
-  text-align: center;
+	position: fixed;
+	width: 100%;
+	z-index: 1000;
+	line-height: 50px;
+	font-size: 100%;
+	text-align: center;
 }
+
 .custom-navbar ul {
-  padding: 0px;
-  margin: 0px;
+	padding: 0px;
+	margin: 0px;
 }
+
 .custom-navbar ul li {
-  display: inline-block;
-  margin: 0px 10px 10px;  
+	display: inline-block;
+	margin: 0px 10px 10px;
 }
+
 .custom-navbar ul li a {
 	color: white;
 	padding-bottom: 10px;
-	border-bottom: solid 2px rgba(0,0,0,0);	
-}
-.custom-navbar ul li a:hover {
-	text-decoration: none;
-	border-bottom: solid 2px rgb(26,119,212);	
+	border-bottom: solid 2px rgba(0, 0, 0, 0);
 }
 
-.custom-navbar-bolded {	
-	background-color: white;	
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);
+.custom-navbar ul li a:hover {
+	text-decoration: none;
+	border-bottom: solid 2px rgb(26, 119, 212);
+}
+
+.custom-navbar-bolded {
+	background-color: white;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px
+		rgba(0, 0, 0, 0.23);
 	transition: background-color 250ms linear;
 }
+
 .custom-navbar-bolded ul li a {
 	color: #3d4451;
 }
+
 .custom-navbar .lien-actif a {
-	color: rgb(26,119,212);
-	border-bottom: solid 2px rgb(26,119,212);	
+	color: rgb(26, 119, 212);
+	border-bottom: solid 2px rgb(26, 119, 212);
 }
 
-header {  
-  position: relative;    
-  opacity: 0.9;  
+header {
+	position: relative;
+	opacity: 0.9;
 }
+
 header .header-background {
 	background-image: url("background.jpg");
 	height: 400px;
 }
-header .header-content {
-  position: relative;  
-  width: 1000px;
-  max-width: 90%;  
-  margin: -300px auto 0px;
-  box-shadow: 1px 1px 3px 1px grey;  
-}
-header .header-top {
-  background-color: white;
-  padding: 15px;  
-}
-header .header-top #my-photo {
-  width: 100%;
-}
-header .header-footer {
-  background-color: rgb(26, 119, 212);  
-  color: white;
-  padding: 15px 0px;
-  font-size: 125%;  
-}
-header .header-footer .col {
 
+header .header-content {
+	position: relative;
+	width: 1000px;
+	max-width: 90%;
+	margin: -300px auto 0px;
+	box-shadow: 1px 1px 3px 1px grey;
+}
+
+header .header-top {
+	background-color: white;
+	padding: 15px;
+}
+
+header .header-top #my-photo {
+	width: 100%;
+}
+
+header .header-footer {
+	background-color: rgb(26, 119, 212);
+	color: white;
+	padding: 15px 0px;
+	font-size: 125%;
+}
+
+header .header-footer .col {
+	
 }
 
 #header-bonjour {
@@ -109,11 +122,18 @@ header .header-footer .col {
 	padding: 10px 20px;
 }
 
-main { 
-  padding: 5px;
-  margin: 0px auto;  
-  width: 1000px;
-  max-width: 90%;  
+main {
+	padding: 5px;
+	margin: 0px auto;
+	width: 1000px;
+	max-width: 90%;
+}
+
+#home {
+	padding: 50px 5px 5px;
+}
+#blog, #article {
+	padding-top: 75px;
 }
 
 #download-resume-btn {
@@ -123,6 +143,7 @@ main {
 	background: transparent;
 	box-shadow: none;
 }
+
 #download-resume-btn:hover {
 	box-shadow: 1px 1px 3px 1px grey;
 	transition: box-shadow 0.25s;
@@ -132,54 +153,32 @@ main {
 	border-top: solid 5px rgb(26, 119, 212);
 }
 
-#before-description,
-#before-blog,
-#before-skills,
-#before-technologies,
-#before-experience,
-#before-education,
-#before-portfolio,
-#before-interests,
-#before-contact {
+#before-description, #before-blog, #before-skills, #before-technologies,
+	#before-experience, #before-education, #before-portfolio,
+	#before-interests, #before-contact {
 	position: relative;
-	top: -75px;	
+	top: -75px;
 }
 
-header,
-#description,
-#blog,
-#skills,
-#technologies,
-#experience,
-#education,
-#portfolio,
-#interests,
-#contact {	
-	margin-bottom: 40px;
+.portfolio-part {
+	margin-bottom: 50px;
 }
-
-#blog h2,
-#skills h2,
-#technologies h2,
-#experience h2,
-#education h2,
-#portfolio h2,
-#interests h2,
-#contact h2 {
+.portfolio-part h2 {
 	font-family: 'open_sanssemibold';
 	font-size: 250%;
-	margin-bottom: 20px;
-} 
+	margin-bottom: 25px;	
+}
 
 #skills .card-body {
 	text-align: left;
 }
-#skills .col .fas,
-#skills .col .far {
+
+#skills .col .fas, #skills .col .far {
 	color: rgb(26, 119, 212);
 	font-size: 200%;
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
 }
+
 #skills .card-body h4 {
 	font-size: 125%;
 	padding-bottom: 15px;
@@ -193,45 +192,55 @@ header,
 #interests .row {
 	margin-top: 40px;
 }
-#interests i {	
+#interests i {
 	font-size: 350%;
 }
 
+#contact i {
+	font-size: 200%;
+}
+
+
 .menu-burger-btn {
 	border: solid 1px #d1d1d1;
-	background-color: rgba(0,0,0,0);
-	line-height: 30px;	
+	background-color: rgba(0, 0, 0, 0);
+	line-height: 30px;
 	vertical-align: bottom;
 	cursor: pointer;
 	border-radius: 5px;
 }
+
 .menu-burger-btn:hover {
 	background-color: #d1d1d1;
 }
 
 #menu-expanded {
-	display: block;	
+	display: block;
 }
+
 #menu-burger {
-	display: none;	
+	display: none;
 	line-height: 50px;
 }
 
 #articles-carrousel {
 	overflow: hidden;
 }
-#articles-carrousel-container {	
-	width: 300%;	
+
+#articles-carrousel-container {
+	width: 300%;
 }
 
 .carrousel-position1 {
 	margin-left: 0%;
 	transition: margin-left 0.5s;
 }
+
 .carrousel-position2 {
 	margin-left: -100%;
 	transition: margin-left 0.5s;
 }
+
 .carrousel-position3 {
 	margin-left: -200%;
 	transition: margin-left 0.5s;
@@ -239,26 +248,23 @@ header,
 
 .blog-article {
 	display: inline-block;
-	width: 33%;	
+	width: 33%;
 }
 
-	
 @media screen and (max-width: 1000px) {
-	
 	#menu-burger {
-		display: block;		
+		display: block;
 	}
-	
 	.custom-navbar #menu-expanded {
-		display: block;		
-		height: 0px;		
+		display: block;
+		height: 0px;
 		overflow: hidden;
 	}
 	.custom-navbar-visible {
 		background-color: white;
 	}
 	.custom-navbar-visible #menu-expanded {
-		height: 100%;	
+		height: 100%;
 	}
 	.custom-navbar-visible #menu-expanded li a {
 		color: #3d4451;
@@ -266,5 +272,5 @@ header,
 	.custom-navbar-visible #menu-expanded li {
 		display: block;
 		margin: 0px auto;
-	}	
+	}
 }
