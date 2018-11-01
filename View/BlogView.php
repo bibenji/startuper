@@ -12,7 +12,7 @@ class BlogView implements ViewInterface
         ob_start ();
         ?>
 
-<main id="blog">
+<main id="main-blog">
     <div class="row">
     	<div class="col-md-8">
     		

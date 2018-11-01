@@ -13,7 +13,7 @@ class ArticleView implements ViewInterface
         ob_start ();
 ?>
 
-<main id="article">
+<main id="main-article">
 	<div class="row">
 		<div class="col-md-8">
 

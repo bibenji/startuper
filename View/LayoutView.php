@@ -78,49 +78,102 @@ class LayoutView implements ViewInterface
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script>
         	$(function() {
-        		console.log('jQuery ready');	
+        		console.log('jQuery ready');
         		
         		$('.menu-burger-btn').click(function() {				
         			$('.custom-navbar').toggleClass('custom-navbar-visible');
         		});
 
-				$('#articles-small-btn-1, #articles-small-btn-2').hide();				
+// 				$('#articles-small-btn-1, #articles-small-btn-2').hide();				
+
+				// -----------------------------------------------------------------------------------
+				// ------------------------------------ CARROUSEL ------------------------------------
+				// -----------------------------------------------------------------------------------
+								
+				function displayCarrouselSmallButtons() {
+					const carrouselPosition = $('#blog-carrousel-container').data('position');
+
+					$('.blog-carrousel-small-btn').each(function(index, smallButton) {
+						if ($(smallButton).data('index') != carrouselPosition) {
+							$(smallButton).removeClass('active');
+						} else {
+							$(smallButton).addClass('active');
+						}
+					});
+				}
+
+				displayCarrouselSmallButtons();
+
+				function switchCarrouselPosition(newCarrouselPosition)
+				{
+					$('#blog-carrousel-container').data('position', newCarrouselPosition);
+					
+					$('.blog-carrousel-article').each(function(index, elem) {
+						var newLeft = $(elem).data('init-left')-(100*newCarrouselPosition);						
+						$(elem).attr('style', 'left: '+newLeft+'%');
+					});	
+
+					displayCarrouselSmallButtons();				
+				}
 				
 				setInterval(function() {
-					if ($('#articles-carrousel-container').data('position') === 1) {
-						console.log('position2');
-						$('#articles-carrousel-container').toggleClass('carrousel-position1');
-						$('#articles-carrousel-container').toggleClass('carrousel-position2');
-						$('#articles-carrousel-container').data('position', 2);
-						$('#articles-small-btn-1, #articles-small-btn-5').hide();
-						$('#articles-small-btn-2, #articles-small-btn-4').show();
-					} else if ($('#articles-carrousel-container').data('position') === 2) {
-						console.log('position3');
-						$('#articles-carrousel-container').toggleClass('carrousel-position2');
-						$('#articles-carrousel-container').toggleClass('carrousel-position3');
-						$('#articles-carrousel-container').data('position', 3);
-						$('#articles-small-btn-4, #articles-small-btn-5').hide();
-						$('#articles-small-btn-1, #articles-small-btn-2').show();						
-					} else {
-						console.log('position1');
-						$('#articles-carrousel-container').toggleClass('carrousel-position3');
-						$('#articles-carrousel-container').toggleClass('carrousel-position1');
-						$('#articles-carrousel-container').data('position', 1);
-						$('#articles-small-btn-1, #articles-small-btn-2').hide();
-						$('#articles-small-btn-4, #articles-small-btn-5').show();
-					}					
-				}, 2000);        					
-				        				
-				$('#skills, #technologies, #experience, #education')
+					
+					var carrouselPosition = $('#blog-carrousel-container').data('position');					
+
+					if (carrouselPosition+1 == $('#blog-carrousel-container').data('count')) {
+						carrouselPosition = -1;
+					}
+
+					carrouselPosition++;					
+					
+					switchCarrouselPosition(carrouselPosition);					
+									
+				}, 3000);
+
+				$('#blog-carrousel').on('click', '.blog-carrousel-small-btn', function(event) {
+					switchCarrouselPosition($(event.target).data('index'));
+				});
+
+				// -----------------------------------------------------------------------------------
+				// ------------------------------------ APPEARING ------------------------------------
+				// -----------------------------------------------------------------------------------
+				
+        		var appearingElements = $('#description, #blog, #skills, #technologies, #experience, #education, #portfolio, #interests, #contact'); 
+        		var navbarH = 100;
+				
+				appearingElements
 					.css({
 						top: 50,
 						position: 'relative',
 						opacity: '0'
 					})
-				;       		
+					.data('displayed', 0)
+				;
+
+				function displayAppearingElements(that) {
+					var wH = $(window).height();
+					var wS = $(window).scrollTop();					
+					
+					var tH = $(that).outerHeight();
+					var tS = $(that).offset().top;
+
+					if (
+						((wS+wH) >= tS) &&
+						((wS+navbarH) < (tS+tH))
+					) {
+						$(that)
+							.css({
+								top: 50,
+								position: 'relative',
+								opacity: '0'
+							})
+							.animate({'top': 0, 'opacity': '1'}, 500)        
+						;
+						$(that).data('displayed', 1);
+					}					
+				}       		
         		
         		$(window).scroll(function() {
-        			
         			var that = this;
         			
         			if ($(window).scrollTop() > 10 && $('.custom-navbar').data('bolded') === 0) {
@@ -132,28 +185,11 @@ class LayoutView implements ViewInterface
         				$('.custom-navbar').data('bolded', 0);
         			}
 
-					$('#skills, #technologies, #experience, #education').each(function(index, div) {						
+					$('#description, #blog, #skills, #technologies, #experience, #education, #portfolio, #interests, #contact').each(function(index, div) {					
 						if ($(div).data('displayed') == 0) {
-							var hT = $(div).offset().top;
-							var hH = $(div).outerHeight();
-							var wH = $(window).height();
-							var wS = $(that).scrollTop();
-					
-							// ajout de 75 pour démarrer l'animation légèrement plus tôt
-							if ((wS+75) > (hT+hH-wH)) {					
-								$(div)
-									.css({
-										top: 50,
-										position: 'relative',
-										opacity: '0'
-									})
-									.animate({'top': 0, 'opacity': '1'}, 500)        
-								;
-								$(div).data('displayed', 1);
-							}					
+							displayAppearingElements(this);					
 						}						
-					});
-        			
+					});        			
         		});        		
         		
         	});

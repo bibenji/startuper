@@ -10,7 +10,7 @@ class HomeView implements ViewInterface
     {
         $data = include(self::HOME_DATA_FILE);
         
-        $lastArticles = $parameters['lastArticles'];
+        $lastArticles = iterator_to_array($parameters['lastArticles']);
         
         ob_start ();
 ?>
@@ -21,7 +21,7 @@ class HomeView implements ViewInterface
 	<div class="header-content">
 		<div class="row header-top">
 			<div class="col-md-5">
-				<img id="my-photo" src="me.jpg" />
+				<img id="my-photo" src="me_real.jpg" />
 			</div>
 			<div class="col-md-7">
 				<h2 id="header-bonjour">Bonjour !</h2>
@@ -47,27 +47,19 @@ class HomeView implements ViewInterface
 					<div class="col-sm-8"><?php echo $data['telephone'] ?></div>
 				</div>
 				<div class="mt-5 text-center">
-					<button id="download-resume-btn" class="btn btn-lg">DOWNLOAD RESUME</button>
+					<a href="/CV BILLETTE Benjamin - Developpeur Web.pdf" download="CV BILLETTE Benjamin - Developpeur Web.pdf" id="download-resume-btn" class="btn btn-lg">DOWNLOAD RESUME</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="row header-footer">
-			<div class="col text-center">
-				<i class="fab fa-github"></i>
-			</div>
-			<div class="col text-center">
-				<i class="fab fa-linkedin-in"></i>
-			</div>
-			<div class="col text-center">
-				<i class="fas fa-at"></i>
-			</div>
-			<div class="col text-center">
-				<i class="fas fa-address-card"></i>
-			</div>
-			<div class="col text-center">
-				<i class="fab fa-twitter"></i>
-			</div>
+			<?php foreach ($data['links'] as $link) { ?>				
+				<div class="col text-center">
+					<a class="one-link" href="<?= $link['href'] ?>" target="_blank">
+						<?= $link['icon'] ?>
+					</a>
+				</div>
+			<?php } ?>
 		</div>
 
 	</div>
@@ -79,12 +71,10 @@ class HomeView implements ViewInterface
 
 <div id="before-description"></div>
 <div id="description" class="portfolio-part">
-	<h2>
-		A propos
-	</h2>
+	<h2>A propos</h2>
 	<p>
-        	<?php echo $data['description'] ?>          		  
-        </p>
+    	<?= $data['description'] ?>          		  
+    </p>
 </div>
 
 <div id="before-blog"></div>
@@ -92,27 +82,23 @@ class HomeView implements ViewInterface
 	<h2>
 		<a href="/blog">Blog</a>
 	</h2>
-	<div id="articles-carrousel">
-		<div id="articles-carrousel-container" class="carrousel-position1"
-			data-position="1">
-			<?php foreach ($lastArticles as $article) { ?>
-				<div class="blog-article">
-				<p>
-					<span class="blog-article-date">Le <?php echo $article->getCreatedAt() ?></span>
-				</p>
-				<p><?php echo $article->getTitle() ?></p>
-				<p>
-					<a href="/article/<?php echo $article->getId() ?>">Lire l'article</a>
-				</p>
-			</div>
+	<div id="blog-carrousel">		
+		<div id="blog-carrousel-container" data-count="<?php echo count($lastArticles) ?>" data-position="0">
+			<?php
+                $smallButtons = '';
+                foreach ($lastArticles as $index => $article) {
+                    $smallButtons .= '
+                        <div class="blog-carrousel-small-btn" data-index="'.($index).'"></div>';
+            ?>			
+    			<div class="blog-carrousel-article" style="left: <?php echo $index*100 ?>%" data-init-left="<?php echo $index*100; ?>">
+    				<p class="blog-carrousel-article-date">Le <?= $article->getCreatedAt() ?></p>
+    				<p class="blog-carrousel-article-title"><?= $article->getTitle() ?></p>
+    				<p><a href="/article/<?= $article->getId() ?>">Lire l'article</a></p>
+    			</div>
 			<?php } ?>			
-			</div>
-		<div class="articles-configuration1">
-			<i id="articles-small-btn-1" class="far fa-circle"></i> <i
-				id="articles-small-btn-2" class="far fa-circle"></i> <i
-				class="fas fa-circle"></i> <i id="articles-small-btn-4"
-				class="far fa-circle"></i> <i id="articles-small-btn-5"
-				class="far fa-circle"></i>
+		</div>
+		<div class="blog-carrousel-articles-configuration">
+			<?= $smallButtons ?>
 		</div>
 	</div>
 </div>
@@ -120,7 +106,7 @@ class HomeView implements ViewInterface
 <!--<div id="twitter_section">--> <!--<h2>Twitter Section</h2>--> <!--</div>-->
 
 <div id="before-skills"></div>
-<div id="skills" class="portfolio-part" data-displayed="0">
+<div id="skills" class="portfolio-part">
 	<h2>Compétences</h2>
 	<div class="card">
 		<div class="card-body">
@@ -138,7 +124,7 @@ class HomeView implements ViewInterface
 </div>
 
 <div id="before-technologies"></div>
-<div id="technologies" class="portfolio-part" data-displayed="0">
+<div id="technologies" class="portfolio-part">
 	<h2>Technologies</h2>
 	<div class="card">
 		<div class="card-body text-left">			
@@ -154,30 +140,33 @@ class HomeView implements ViewInterface
 </div>
 
 <div id="before-experience"></div>
-<div id="experience" class="portfolio-part" data-displayed="0">
+<div id="experience" class="portfolio-part">
 	<h2>Expérience</h2>
 	<div class="card card-special">
 		<div class="card-body">
           	<?php foreach ($data['experiences'] as $experience) { ?>
-				<p><?php echo $experience['date'] ?></p>
-			<p>
-				<strong><?php echo $experience['name'] ?></strong>
-			</p>
-			<p><?php echo $experience['content'] ?></p>
-			<table class="table">
+				<p><?= $experience['date'] ?></p>
+				<p>
+					<strong><?= $experience['name'] ?></strong>
+				</p>
+				<p><?= $experience['content'] ?></p>
+				<table class="table">
     				<?php foreach ($experience['missions'] as $index => $mission) { ?>
     					<tr>
-					<td>
-    							<?php echo $mission['name'] ?>
+							<td><?= $mission['name'] ?></td>
+							<td>
+								<a class="#" data-toggle="collapse" href="#mission<?= $index ?>Details" role="button" aria-expanded="false" aria-controls="collapseExample">
+									Plus de détails
+								</a>								
+                			</td>
+						</tr>
+						<tr>							
+							<td colspan="2">
+								<div class="collapse" id="mission<?= $index ?>Details">
+                    				<?= $mission['content'] ?>                    			  
+                    			</div>
 							</td>
-					<td><a class="#" data-toggle="collapse"
-						href="#mission<?php echo $index ?>Details" role="button"
-						aria-expanded="false" aria-controls="collapseExample"> Plus de
-							détails </a>
-						<div class="collapse" id="mission<?php echo $index ?>Details">
-                    				<?php $mission['content'] ?>                    			  
-                    			</div></td>
-				</tr>
+						</tr>
 					<?php } ?>
     			</table>
 			<?php } ?>
@@ -186,24 +175,21 @@ class HomeView implements ViewInterface
 </div>
 
 <div id="before-education"></div>
-<div id="education" class="portfolio-part" data-displayed="0">
+<div id="education" class="portfolio-part">
 	<h2>Formation</h2>
 	<div class="card card-special">
 		<div class="card-body">
           	<?php foreach ($data['formations'] as $index => $formation) { ?>
           		<p>
-          			<?php echo $formation['date'] ?><br /> <strong><?php echo $formation['name'] ?></strong><br />
-          			<?php echo $formation['school'] ?><br /> <a class="#"
-					data-toggle="collapse" href="#formation<?php echo $index ?>Details"
-					role="button" aria-expanded="false" aria-controls="collapseExample">
-					Plus de détails </a>
+          			<?= $formation['date'] ?><br /> <strong><?= $formation['name'] ?></strong><br />
+          			<?= $formation['school'] ?><br /> <a class="#" data-toggle="collapse" href="#formation<?= $index ?>Details" role="button" aria-expanded="false" aria-controls="collapseExample">
+						Plus de détails
+					</a>			
 			
-			
-			<div class="collapse" id="formation<?php echo $index ?>Details">
-				<br />    			  		
-			  			<?php echo $formation['content'] ?>    				  	
+					<div class="collapse" id="formation<?= $index ?>Details">				    			  		
+			  			<?= $formation['content'] ?>
     				</div>
-			</p>
+				</p>
          	<?php } ?>
 		  </div>
 	</div>

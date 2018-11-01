@@ -122,6 +122,13 @@ header .header-footer .col {
 	padding: 10px 20px;
 }
 
+.one-link {
+	color: white;	
+}
+.one-link:hover {	
+	color: white;
+}
+
 main {
 	padding: 5px;
 	margin: 0px auto;
@@ -132,7 +139,7 @@ main {
 #home {
 	padding: 50px 5px 5px;
 }
-#blog, #article {
+#main-blog, #main-article {
 	padding-top: 75px;
 }
 
@@ -223,32 +230,30 @@ main {
 	line-height: 50px;
 }
 
-#articles-carrousel {
-	overflow: hidden;
-}
+/* ------------ BLOG CARROUSEL ------------ */
 
-#articles-carrousel-container {
-	width: 300%;
-}
-
-.carrousel-position1 {
-	margin-left: 0%;
-	transition: margin-left 0.5s;
-}
-
-.carrousel-position2 {
-	margin-left: -100%;
-	transition: margin-left 0.5s;
-}
-
-.carrousel-position3 {
-	margin-left: -200%;
-	transition: margin-left 0.5s;
-}
-
-.blog-article {
+#blog-carrousel { overflow: hidden; }
+#blog-carrousel-container, .blog-carrousel-article { height: 125px; }
+#blog-carrousel-container { width: 100%; position: relative; }
+.blog-carrousel-small-btn {
 	display: inline-block;
-	width: 33%;
+	border-radius: 50%;
+	border: solid 2px rgb(61, 68, 81);
+	height: 18px;
+	width: 18px;
+	cursor: pointer;
+}
+.blog-carrousel-small-btn:hover,
+.blog-carrousel-small-btn.active { background-color: rgb(61, 68, 81); }
+.blog-carrousel-article {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0%;	
+	transition: left 0.5s;
 }
 
 @media screen and (max-width: 1000px) {
