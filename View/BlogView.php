@@ -6,9 +6,10 @@ class BlogView implements ViewInterface
 {
     public function render($parameters)
     {
-        $countByCategories = $parameters['countByCategories'];
-        $lastArticles = $parameters['lastArticles'];
-        $iterator = $parameters ['iterator'];        
+        foreach ($parameters as $key => $value) {            
+            $$key = $value;
+        }
+        
         ob_start ();
         ?>
 
@@ -19,30 +20,30 @@ class BlogView implements ViewInterface
     	<?php foreach ( $iterator as $article ) { ?>
     		<div class="card">
     			<div class="card-body">
-    				<h2><?php echo $article->getTitle() ?></h2>
+    				<h2><?= $article->getTitle() ?></h2>
     				<hr />
     				<div class="row">
     					<div class="col-md-4">
     						<?php foreach ( $article->getCategories() as $category ) { ?>
-    							<span class="badge badge-secondary"><?php echo $category ?></span>
+    							<span class="badge badge-secondary"><?= $category ?></span>
     						<?php } ?>    				
     	    			</div>
     				<div class="col-md-4">
-    					<i class="far fa-calendar-alt"></i> <?php echo $article->getCreatedAt() ?>
+    					<i class="far fa-calendar-alt"></i> <?= $article->getCreatedAt() ?>
         			</div>
     				<div class="col-md-4">
-    					<i class="far fa-comments"></i> 0 comments
+    					<i class="far fa-comments"></i> <?= count($article->getComments()) ?> commentaire(s)
     				</div>
     			</div>
     			<hr />
     			<div class="row">
     				<div class="col-md-4">
-    					<img src="https://source.unsplash.com/random/300x300" />
+    					<img src="/data/articles/<?= $article->getPicture() ?>" />
     				</div>
     				<div class="col-md-8">
-    					<p><?php echo $article->getResume() ?></p>
+    					<p><?= $article->getResume() ?></p>
     					<p class="text-right">
-    						<a href="/article/<?php echo $article->getId() ?>">Lire la suite</a>
+    						<a href="/article/<?= $article->getId() ?>">Lire la suite</a>
     					</p>
     				</div>
     			</div>
@@ -53,13 +54,10 @@ class BlogView implements ViewInterface
     				
     	<div class="row">
     		<div class="col text-left">
-    			<a href="">Plus récents</a>
-    		</div>
-    		<div class="col text-center">
-    			<a href="index.html">Retour</a>
-    		</div>
+    			<?= $next ? '<a href="?page='.$next.'">Plus récents</a>' : '' ?>    			
+    		</div>    		
     		<div class="col text-right">
-    			<a href="">Plus anciens</a>
+    			<?= $prev ? '<a href="?page='.$prev.'">Plus anciens</a>' : '' ?>    			
     		</div>
     	</div>
     </div>

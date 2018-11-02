@@ -7,6 +7,8 @@ Autoload\Loader::init(__DIR__);
 // Init connection to db
 use Database\{Connection, Service\UserService};
 use Engine\Router;
+use Engine\Request;
+use Engine\Session;
 
 define('DB_CONFIG_FILE', __DIR__.'/config/db.config.php');
 define('ROUTING_CONFIG_FILE', __DIR__.'/config/routing.config.php');
@@ -43,8 +45,13 @@ function phpToHTML($filename) {
     }
 }
 
-$router = new Router(include ROUTING_CONFIG_FILE);
+$session = new Session();
+$session->start();
+
+$request = new Request();
+
+$router = new Router($request, include ROUTING_CONFIG_FILE);
 $matching = $router->match();
 
-$controller = new $matching['fullControllerName']($connection);
+$controller = new $matching['fullControllerName']($connection, $session, $request);
 eval('$controller->handle('.$matching['params'].');');

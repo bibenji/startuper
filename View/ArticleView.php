@@ -6,9 +6,9 @@ class ArticleView implements ViewInterface
 {
     public function render($parameters)
     {
-        $article = $parameters['article'];
-        $countByCategories = $parameters['countByCategories'];
-        $lastArticles = $parameters['lastArticles'];
+        foreach ($parameters as $key => $value) {
+            $$key = $value;
+        }
         
         ob_start ();
 ?>
@@ -19,34 +19,34 @@ class ArticleView implements ViewInterface
 
 			<div class="card">
 				<div class="card-body">
-					<h2><?php echo $article->getTitle() ?></h2>
+					<h2><?= $article->getTitle() ?></h2>
 					<hr />
 					<div class="row">
 						<div class="col-md-4">
 							<?php foreach ($article->getCategories() as $category) { ?>								
-								<span class="badge badge-secondary"><?php echo $category ?></span>
+								<span class="badge badge-secondary"><?= $category ?></span>
 							<?php } ?>
 						</div>
 						<div class="col-md-4">
-							<i class="far fa-calendar-alt"></i> <?php echo $article->getCreatedAt() ?>
+							<i class="far fa-calendar-alt"></i> <?= $article->getCreatedAt() ?>
 						</div>
 						<div class="col-md-4">
-							<i class="far fa-comments"></i> 0 comments
+							<i class="far fa-comments"></i> <?= $totalComments ?> commentaire(s)
 						</div>
 					</div>
 					<hr />
 					<div class="row">
 						<div class="col-md-12">
 							<p>Résumé</p>
-							<p><?php echo $article->getResume() ?></p>
+							<p><?= $article->getResume() ?></p>
 						</div>
 					</div>
 					<hr />
 					<div class="row">
 
 						<div id="article-content" class="col-md-12">
-							<img src="https://source.unsplash.com/random/300x300" />							
-							<?php echo $article->getContent() ?>
+							<img src="/data/articles/<?= $article->getPicture() ?>" />							
+							<?= $article->getContent() ?>
 						</div>
 						
 						<div class="col-md-12">								
@@ -103,13 +103,13 @@ class ArticleView implements ViewInterface
 			
 			<div class="row">
 				<div class="col text-left">
-					<a href="">Plus récent</a>
+<!-- 					<a href="">Plus récent</a> -->
 				</div>
 				<div class="col text-center">
 					<a href="/blog">Retour</a>
 				</div>
 				<div class="col text-right">
-					<a href="">Plus ancien</a>
+<!-- 					<a href="">Plus ancien</a> -->
 				</div>
 			</div>
 
@@ -118,21 +118,34 @@ class ArticleView implements ViewInterface
 			<div class="card">
 				<div class="card-body">
 
-					<h4><?php echo count($article->getComments()) ?> commentaire(s)</h4>
+					<h4><?= $totalComments ?> commentaire(s)</h4>
 					
 					<?php foreach ($article->getComments() as $comment) { ?>					
     					<div class="real-comment">
-    						<strong><?php echo $comment->getUser()->getUsername() ?></strong> <I><?php echo $comment->getDate() ?></I>
-    						<p><?php echo $comment->getComment() ?></p>
+    						<strong><?= NULL !== $comment->getUser()->getUsername() ? $comment->getUser()->getUsername() : $comment->getPseudo() ?></strong> <I><?php echo $comment->getDate()->format('l j F Y à H\hi') ?></I>
+    						<p><?= $comment->getComment() ?></p>
     					</div>
 					<?php } ?>
 					
+					<?php if ($totalPages > 1) { ?>
+    					<div class="text-center">
+        					<?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+        						<a<?= ($i != $currentPage ? ' href="?page='.$i.'"' : '') ?>><?= $i ?></a>
+        					<?php } ?>
+    					</div>
+					<?php } ?>
+					
+					<br />
+					
 					<div id="comment-zone">
 						<h5>Laisser un commentaire</h5>
-						<input class="mb-2 form-control" type="text" placeholder="Pseudo" />
-						<textarea rows="5" class="mb-2 form-control">Ecrivez-ici votre commentaire.</textarea>
-						<input class="btn btn-default" type="reset" value="Effacer" /> <input
-							class="btn btn-success" type="submit" value="Soumettre" />
+						<form method="post">
+							<input type="hidden" name="token" value="<?= $token ?>" />
+							<input class="mb-2 form-control" name="pseudo" placeholder="Pseudo" type="text" />
+							<textarea rows="5" class="mb-2 form-control" name="comment">Ecrivez-ici votre commentaire.</textarea>
+							<input class="btn btn-default" type="reset" value="Effacer" />
+							<input class="btn btn-success" name="submit" type="submit" value="Soumettre" />
+						</form>
 					</div>
 					
 				</div>

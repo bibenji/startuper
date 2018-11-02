@@ -14,10 +14,14 @@ class Finder
     public static $join = [];
     public static $where = [];
     public static $control = ['', ''];
+    public static $order = '';
     
     public static function select($tableName, $colsNames = NULL)
     {
         self::$instance = new Finder();
+        self::$join = [];
+        self::$where = [];
+        self::$order = '';
         
         if ($colsNames) {
             self::$prefix = 'SELECT ' . $colsNames . ' FROM ' . $tableName;
@@ -82,14 +86,21 @@ class Finder
         return self::$instance;
     }
     
+    public static function order($order)
+    {
+        self::$order = $order;
+        return self::$instance;
+    }
+    
     public static function getSql()
     {
         self::$sql =
             self::$prefix . ' ' .
             implode(' ', self::$join) . ' ' .
             implode(' ', self::$where) . ' ' .
+            self::$order . ' ' .
             self::$control[0] . ' ' .
-            self::$control[1]
+            self::$control[1]            
         ;
         
         preg_replace('/ /', ' ', self::$sql);        

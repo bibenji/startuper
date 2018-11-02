@@ -69,7 +69,7 @@ body {
 	color: #3d4451;
 }
 
-.custom-navbar .lien-actif a {
+.custom-navbar a.lien-actif {
 	color: rgb(26, 119, 212);
 	border-bottom: solid 2px rgb(26, 119, 212);
 }
@@ -80,7 +80,7 @@ header {
 }
 
 header .header-background {
-	background-image: url("background.jpg");
+	background-image: url("/data/background.jpg");
 	height: 400px;
 }
 
