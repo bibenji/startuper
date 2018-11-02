@@ -9,9 +9,10 @@ class Article extends Base
     protected $title;
     protected $categories;
     protected $resume;
+    protected $picture;
     protected $content;
     protected $published;
-    protected $comments;
+    protected $comments;    
     
     public function __construct()
     {
@@ -65,7 +66,17 @@ class Article extends Base
     
     public function getResume()
     {
-        return $this->resume;
+        return $this->resume;    
+    }
+    
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+    }
+    
+    public function getPicture()
+    {
+        return $this->picture;
     }
     
     public function setContent($content)

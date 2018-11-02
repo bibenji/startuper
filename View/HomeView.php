@@ -21,7 +21,7 @@ class HomeView implements ViewInterface
 	<div class="header-content">
 		<div class="row header-top">
 			<div class="col-md-5">
-				<img id="my-photo" src="me_real.jpg" />
+				<img id="my-photo" src="/data/me_real.jpg" />
 			</div>
 			<div class="col-md-7">
 				<h2 id="header-bonjour">Bonjour !</h2>
@@ -47,7 +47,7 @@ class HomeView implements ViewInterface
 					<div class="col-sm-8"><?php echo $data['telephone'] ?></div>
 				</div>
 				<div class="mt-5 text-center">
-					<a href="/CV BILLETTE Benjamin - Developpeur Web.pdf" download="CV BILLETTE Benjamin - Developpeur Web.pdf" id="download-resume-btn" class="btn btn-lg">DOWNLOAD RESUME</a>
+					<a href="/data/CV BILLETTE Benjamin - Developpeur Web.pdf" download="CV BILLETTE Benjamin - Developpeur Web.pdf" id="download-resume-btn" class="btn btn-lg">DOWNLOAD RESUME</a>
 				</div>
 			</div>
 		</div>
@@ -218,10 +218,19 @@ class HomeView implements ViewInterface
 			     foreach ($data['interests'] as $index => $interest) {
 			         			             
 			?>			
+				<style>
+				    .interest-zone img {
+				        width: 150px;
+				    }
+				    .interest-zone h5 {
+				        display: inline-block;
+				        font-size: 175%;
+				    }
+				</style>
     			<div class="row">				
-    				<div class="text-left col-sm-6 offset-sm-0 col-md-8 offset-md-2">
-    					<img class="mr-3" src="https://source.unsplash.com/random/150x150" />    				
-    					<?php //echo $interest['icon'] ?> Interest's name
+    				<div class="interest-zone text-left col-sm-6 offset-sm-0 col-md-8 offset-md-2">
+    					<img class="mr-3" src="<?= $interest['img'] ?>" />    				
+    					<h5><?= $interest['name'] ?></h5>
     				</div>
     			</div>
 	         <?php } ?>

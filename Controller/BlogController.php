@@ -7,20 +7,27 @@ use ArrayIterator;
 
 class BlogController extends BaseController
 {
+    const MAX_ARTICLES_PER_PAGE = 10;
+    
     public function handle()
-    {
-        $limit = (int) ($_GET['limit'] ?? 10);
-        $page = (int) ($_GET['page'] ?? 0);
-        $offset = $page * $limit;
-        $prev = ($page > 0) ? $page - 1 : 0;
-        $next = $page + 1;
-        
+    {   
         $articleService = new ArticleService($this->connection);
-        $countByCategories = $articleService->fetchCountByCategories();
+        
+        $countByCategories = $articleService->countByCategories();
         $lastArticles = $articleService->getLastArticles();
         
-        $category = $_GET['category'] ?? NULL;
-        $generator = $articleService->fetchByCategory($category);
+        $category = $this->request->getParam('category') ?? NULL;
+                
+        $currentPage = $this->request->getParam('page') ?? 1;
+        $totalArticles = $articleService->countByCategory($category);
+        $totalPages = ceil(((int) $totalArticles) / self::MAX_ARTICLES_PER_PAGE);
+        
+        $limit = self::MAX_ARTICLES_PER_PAGE;
+        $offset = ($currentPage-1)*self::MAX_ARTICLES_PER_PAGE;
+        $prev = $currentPage+1 <= $totalPages ? $currentPage+1 : NULL;
+        $next = $currentPage-1 >= 1 ? $currentPage-1 : NULL;
+                
+        $generator = $articleService->fetchByCategory($offset, $limit, $category);
         
         // $sql = Finder::select('articles')->getSql();
         
@@ -51,6 +58,8 @@ class BlogController extends BaseController
             'iterator' => $iterator,
             'countByCategories' => $countByCategories,
             'lastArticles' => $lastArticles,
+            'next' => $next,
+            'prev' => $prev,
         ]);
     }
     

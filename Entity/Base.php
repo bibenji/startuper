@@ -2,6 +2,9 @@
 
 namespace Entity;
 
+use ReflectionClass;
+use ReflectionProperty;
+
 class Base
 {
     protected $id;
@@ -10,7 +13,7 @@ class Base
         'id' => 'id' 
     ];
     
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -18,6 +21,11 @@ class Base
     public function setId($id)
     {
         $this->id = $id;
+    }
+    
+    public function getMapping()
+    {
+        return $this->mapping;
     }
     
     public static function arrayToEntity($data, Base $instance)
@@ -45,16 +53,18 @@ class Base
     {
         $data = [];
         
-        $rc = new ReflectionClass($this);
+        $reflect = new ReflectionClass($this);
         $props = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE);
         
         foreach ($props as $prop) {
-            $method = 'get' . ucfirst($prop->getName());
-            $dbProperty = array_search($prop->getName(), $this->mapping) ?? strtolower($prop->getName());
+            if ('mapping' === $prop->getName()) continue;
             
+            $method = 'get' . ucfirst($prop->getName());
+            $dbProperty = array_search($prop->getName(), $this->mapping) ? array_search($prop->getName(), $this->mapping) : strtolower($prop->getName());
+                        
             // revient à faire method_exists
             $data[$dbProperty] = $this->$method() ?? NULL;
-        }
+        }        
         
         return $data;
     }

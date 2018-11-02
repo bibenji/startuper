@@ -9,10 +9,10 @@ use Entity\User;
 use Database\{Connection, Finder};
 
 class ArticleService extends AbstractService
-{
-    public function fetchByCategory($category = NULL)
+{   
+    public function fetchByCategory($offset, $limit, $category = NULL)
     {
-        $sql = Finder::select('articles', '*')->where('published = :published');
+        $sql = Finder::select('articles', 'articles.*')->where('published = :published');
         
         if ($category) {            
             $sql
@@ -22,18 +22,24 @@ class ArticleService extends AbstractService
             ;
         }
         
+        $sql
+            ->offset($offset)
+            ->limit($limit)
+        ;
+        
         $stmt = $this->connection->pdo->prepare($sql->getSql());
         
         $stmt->execute(['published' => TRUE]);
         
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            yield Article::arrayToEntity($row, new Article());
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {            
+            yield $this->fetchCommentsForArticle(Article::arrayToEntity($row, new Article()));            
         }
     }
     
     public function fetchById($id)
     {
-        $stmt = $this->connection->pdo->prepare(Finder::select('articles')->where('id = :id')->getSql());
+        $sql = Finder::select('articles')->where('articles.id = :id')->getSql();        
+        $stmt = $this->connection->pdo->prepare($sql);
         $stmt->execute(['id' => (int) $id]);
         
         // return $stmt->fetchObject('Entity\Article');
@@ -44,15 +50,22 @@ class ArticleService extends AbstractService
         return Article::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new Article());
     }
     
-    private function fetchCommentsForArticle(Article $article)
-    {        
-        $stmt = $this->connection->pdo->prepare(
-            Finder::select('comments')
-                ->join(Finder::LEFT_JOIN, 'users', 'users.id', 'comments.user_id')
-                ->where('article_id = :id')
-                ->getSql()
-        );
-        $stmt->execute(['id' => (int) $article->getId()]);
+    private function fetchCommentsForArticle(Article $article, $offset = NULL, $limit = NULL)
+    {
+        $sql = Finder::select('comments')            
+            ->join(Finder::LEFT_JOIN, 'users', 'users.id', 'comments.user_id')
+            ->where('article_id = :articleId')
+            ->order('ORDER BY comments.date DESC')
+        ;
+        
+        if ($offset)
+            $sql->offset($offset);
+        if ($limit)
+            $sql->limit($limit);
+            
+        $stmt = $this->connection->pdo->prepare($sql->getSql());                
+                
+        $stmt->execute(['articleId' => (int) $article->getId()]);        
         
         $comments = [];
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {            
@@ -61,17 +74,17 @@ class ArticleService extends AbstractService
             $comment->setUser($user);
             $comments[] = $comment;            
         }
-        $article->setComments($comments);
+        $article->setComments($comments);                
         
         return $article;
     }
     
-    public function fetchByIdWithComments($id)
+    public function fetchByIdWithComments($id, $offset, $limit)
     {
-        return $this->fetchCommentsForArticle($this->fetchById($id));
+        return $this->fetchCommentsForArticle($this->fetchById($id), $offset, $limit);
     }
     
-    public function fetchCountByCategories()
+    public function countByCategories()
     {
         $sql = 'SELECT c.name name, COUNT(*) count FROM articles a, article_category ac, categories c
                 WHERE a.id = ac.article_id AND ac.category_id = c.id AND published = 1
@@ -81,6 +94,25 @@ class ArticleService extends AbstractService
         $stmt->execute();
         
         return $stmt->fetchAll();
+    }
+    
+    public function countByCategory($category = NULL)
+    {
+        $sql = Finder::select('articles', 'COUNT(*)')->where('published = :published');
+        
+        if ($category) {
+            $sql
+            ->join(Finder::LEFT_JOIN, 'article_category ac', 'ac.article_id', 'articles.id')
+            ->join(Finder::LEFT_JOIN, 'categories c', 'c.id', 'ac.category_id')
+            ->like('c.name', $category)
+            ;
+        }
+        
+        $stmt = $this->connection->pdo->prepare($sql->getSql());
+        
+        $stmt->execute(['published' => TRUE]);
+        
+        return $stmt->fetch()[0];        
     }
     
     public function getLastArticles($nb = 3)
