@@ -1,0 +1,11 @@
+/config/*.php
+!/config/routing.config.php
+
+/config/manual/*.sql
+
+/data/*.*
+/data/articles/*.*
+
+!/data/background.jpg
+!/data/me.jpg
+!/data/website.jpg
