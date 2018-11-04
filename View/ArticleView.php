@@ -148,6 +148,10 @@ class ArticleView implements ViewInterface
 								<input type="hidden" name="token" value="<?= $token ?>" />								
 								<input class="mb-2 form-control" disabled name="pseudo" placeholder="Pseudo" type="text" value="<?= $userUsername ?>" />
 								<textarea rows="5" class="mb-2 form-control" name="comment">Ecrivez-ici votre commentaire.</textarea>
+								<div class="mb-2">
+									Ecrire les lettres <strong><?= $captcha ?></strong> dans l'ordre inverse :
+									<input class="form-control" type="text" name="captcha" />
+								</div>
 								<input class="btn btn-default" type="reset" value="Effacer" />
 								<input class="btn btn-success" name="submit" type="submit" value="Soumettre" />
 							</form>

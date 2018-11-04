@@ -5,6 +5,7 @@ namespace Controller;
 use Database\{Connection, Finder, Paginate, Service\ArticleService, Service\CommentService};
 use Engine\Request;
 use Entity\Comment;
+use Engine\Captcha\Reverse;
 
 class ArticleController extends BaseController
 {
@@ -24,15 +25,22 @@ class ArticleController extends BaseController
             ($currentPage-1)*self::MAX_COMMENTS_PER_PAGE,
             self::MAX_COMMENTS_PER_PAGE
         );
-        
-        $formValid = function(Request $request) {
+
+        $image = '';
+        $label = '';
+        $phrase = $this->session->getPhrase() ?? '';
+
+        $formValid = function(Request $request) use ($phrase) {
             if (                
                 '' != $this->request->getParam('comment')
                 && 'Ecrivez-ici votre commentaire.' != $this->request->getParam('comment')
                 // && '' != $this->request->getParam('pseudo')                
+                && $this->request->getParam('captcha') === $phrase
             ) {
                 return TRUE;
             }
+            
+            $this->addMessage('Erreur : Formulaire invalide');
             return FALSE;            
         };
 
@@ -58,6 +66,8 @@ class ArticleController extends BaseController
             }
         }
         
+        $this->setCaptcha($phrase, $label, $image);
+        
         $token = urlencode(base64_encode((random_bytes(32))));
         $this->session->setToken($token);        
         
@@ -73,6 +83,16 @@ class ArticleController extends BaseController
             'token' => $token,
             'totalComments' => $totalComments,
             'userUsername' => $this->session->getUserUsername(),            
+            'captcha' => $image,
         ]);
+    }
+    
+    private function setCaptcha(&$phrase, &$label, &$image)
+    {
+        $captcha = new Reverse();
+        $phrase = $captcha->getPhrase();
+        $label = $captcha->getLabel();
+        $image = $captcha->getImage();
+        $this->session->setPhrase($phrase);
     }
 }
