@@ -27,6 +27,8 @@ class Session
     
     public function stop()
     {
+        session_unset();
         session_destroy();
+        setcookie('PHPSESSID', 0, time() - 3600);
     }
 }
