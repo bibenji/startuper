@@ -253,8 +253,6 @@ class HomeView implements ViewInterface
 	<h3>A bientôt !</h3>
 </footer>
 
-<br />
-
 <?php
         $viewContent = ob_get_contents();
         ob_end_clean();

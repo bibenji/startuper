@@ -11,7 +11,7 @@ class BlogView implements ViewInterface
         }
         
         ob_start ();
-        ?>
+?>
 
 <main id="main-blog">
     <div class="row">
@@ -29,7 +29,7 @@ class BlogView implements ViewInterface
     						<?php } ?>    				
     	    			</div>
     				<div class="col-md-4">
-    					<i class="far fa-calendar-alt"></i> <?= $article->getCreatedAt() ?>
+    					<i class="far fa-calendar-alt"></i> <?= $locale->getShortDate($article->getCreatedAt()) ?>
         			</div>
     				<div class="col-md-4">
     					<i class="far fa-comments"></i> <?= count($article->getComments()) ?> commentaire(s)

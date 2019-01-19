@@ -23,7 +23,8 @@
 }
 
 body {
-	background-color: lavender;
+	/* background-color: lavender; */
+	background-color: #b3d8fe;
 	font-family: 'open_sansregular';
 	color: rgb(61, 68, 81);
 }
@@ -53,7 +54,7 @@ body {
 	border-bottom: solid 2px rgba(0, 0, 0, 0);
 }
 
-.custom-navbar ul li a:hover {
+.custom-navbar ul li a:hover {	
 	text-decoration: none;
 	border-bottom: solid 2px rgb(26, 119, 212);
 }
@@ -324,4 +325,44 @@ footer {
     width: 100%;
     padding: 75px 0px 50px;
     margin: 0px;
+}
+
+#connexionForm input[type=text],
+#connexionForm input[type=password] {
+	border: solid 1px grey;
+	width: 100%;
+	padding: 2px 5px;
+}
+#connexionForm input[type=text],
+#connexionForm input[type=password],
+#connexionForm input[type=submit] {
+	display: block;
+	line-height: 30px;
+	margin-bottom: 10px;
+	
+}
+#connexionForm input[type=submit] {
+	padding: 2px 10px;
+	background-color: rgb(26, 119, 212);
+	color: #fff;
+	border: 1px solid rgb(26, 119, 212);
+	cursor: pointer;
+}
+#connexionForm input[type=submit]:hover {
+	background-color: #fff;
+	color: rgb(26, 119, 212);
+}
+.connexionError {
+	color: #e74c3c;
+}
+.connexionSuccess {
+	color: #27ae60;
+}
+
+.article-code {
+	background-color: black;
+	color: #fff;
+	font-family: Courier;
+	padding: 5px 15px;
+	clear: both;
 }

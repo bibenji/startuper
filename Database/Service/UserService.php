@@ -8,6 +8,21 @@ use Database\Finder;
 
 class UserService extends AbstractService
 {
+    public function fetchByUsernameOrEmail($identifiant, $password)
+    {
+        $sql = Finder::select('users')
+            ->where('username = :identifiant OR email =  :identifiant')            
+            ->and('password = :password')
+            ->getSql()
+        ;        
+        $stmt = $this->connection->pdo->prepare($sql);
+        $stmt->execute([
+            'identifiant' => $identifiant,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+        ]);
+        return User::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new User());
+    }
+
     public function fetchByEmail($email)
     {
         $stmt = $this->connection->pdo->prepare(Finder::select('users')->where('email = :email')->getSql());
@@ -77,12 +92,16 @@ class UserService extends AbstractService
     protected function doInsert($instance)
     {
         $values = $instance->entityToArray();
-        
+
         $id = $values['id'];
+        unset($values['comments']);
+        $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
         
         $insert = 'INSERT INTO ' . $instance->getTableName() . ' ';
+
         if ($this->flush($insert, $values)) {
-            return $this->fetchById($id);
+            // return $this->fetchById($id);
+            return TRUE;            
         } else {
             return FALSE;
         }

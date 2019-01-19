@@ -2,8 +2,10 @@
 
 namespace Entity;
 
+use Ramsey\Uuid;
+
 class User extends Base
-{
+{    
     protected $username;
     protected $email;
     protected $firstname;
@@ -11,8 +13,15 @@ class User extends Base
     protected $birthdate;
     protected $sex;
     protected $description;
+    protected $password;
+    protected $startuper;
     protected $comments;
-    
+
+    public function __construct()
+    {
+        $this->startuper = 0; // marche pas avec FALSE
+    }
+        
     public function setUsername($username)
     {
         $this->username = $username;
@@ -81,6 +90,26 @@ class User extends Base
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setStartuper($startuper)
+    {
+        $this->startuper = $startuper;
+    }
+
+    public function getStartuper()
+    {
+        return $this->startuper;
     }
     
     public function setComments($comments)

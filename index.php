@@ -2,7 +2,14 @@
 
 // Autoload
 require_once __DIR__ . '/Autoload/Loader.php';
-Autoload\Loader::init(__DIR__);
+Autoload\Loader::init([
+    __DIR__,    
+]);
+
+use I18n\Locale;
+
+// Set locale param
+$locale = new Locale('fr-FR');
 
 // Init connection to db
 use Database\{Connection, Service\UserService};
@@ -53,5 +60,5 @@ $request = new Request();
 $router = new Router($request, include ROUTING_CONFIG_FILE);
 $matching = $router->match();
 
-$controller = new $matching['fullControllerName']($connection, $session, $request);
+$controller = new $matching['fullControllerName']($connection, $session, $request, $locale);
 eval('$controller->handle('.$matching['params'].');');

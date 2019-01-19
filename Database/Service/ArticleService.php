@@ -23,6 +23,7 @@ class ArticleService extends AbstractService
         }
         
         $sql
+            ->order('ORDER BY articles.createdAt DESC')
             ->offset($offset)
             ->limit($limit)
         ;

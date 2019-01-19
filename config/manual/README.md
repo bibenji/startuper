@@ -1,8 +1,14 @@
-fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+fastcgi_pass unix:/run/php/php7.2-fpm.socket;
 
-CREATE DATABASE startuper;
-CREATE USER 'startuper'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON startuper.* TO 'startuper'@'localhost';
+
+
+CREATE DATABASE randomovies;
+CREATE USER 'randomovies'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON randomovies.* TO 'randomovies'@'localhost';
 FLUSH PRIVILEGES;
 
- mysql -u startuper -p startuper < /var/www/startuper/config/manual/startuper_database2018-10-25.sql
+ mysql -u randomovies -p randomovies < /home/orangepi/randomovies_database_prod.sql
+ 
+ ---
+ 
+ Configurer Symfony pour fonctionner avec un unix_socket pour la base de données
