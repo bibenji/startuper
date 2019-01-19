@@ -6,7 +6,9 @@ class Loader
 {
     const UNABLE_TO_LOAD = 'Unable to load class';
     
-    protected static $dirs = [];
+    protected static $dirs = [
+
+    ];
     protected static $registered = 0;
     
     protected static function loadFile($file)
@@ -15,7 +17,7 @@ class Loader
             require_once $file;
             return TRUE;
         }
-        
+            
         return FALSE;
     }
     
@@ -23,17 +25,17 @@ class Loader
     {
         $success = FALSE;
         $fn = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-        
+             
         foreach (self::$dirs as $start) {
-            $file = $start . DIRECTORY_SEPARATOR . $fn;
+            $file = $start . DIRECTORY_SEPARATOR . $fn;                        
             
             if (self::loadFile($file)) {
                 $success = TRUE;
                 break;
             }
-        }
+        }        
         
-        if (!$success) {
+        if (!$success) {                        
             if (!self::loadFile(__DIR__ . DIRECTORY_SEPARATOR . $fn)) {
                 throw new \Exception(self::UNABLE_TO_LOAD . ' ' . $class);
             }

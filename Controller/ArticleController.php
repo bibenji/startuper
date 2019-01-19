@@ -11,7 +11,7 @@ class ArticleController extends BaseController
     const MAX_COMMENTS_PER_PAGE = 10;
     
     public function handle($articleId)
-    {   
+    {           
         $commentService = new CommentService($this->connection);
         
         $currentPage = $this->request->getParam('page') ?? 1;
@@ -26,26 +26,29 @@ class ArticleController extends BaseController
         );
         
         $formValid = function(Request $request) {
-            if (
-                '' != $this->request->getParam('pseudo')
-                && '' != $this->request->getParam('comment')
+            if (                
+                '' != $this->request->getParam('comment')
                 && 'Ecrivez-ici votre commentaire.' != $this->request->getParam('comment')
+                // && '' != $this->request->getParam('pseudo')                
             ) {
                 return TRUE;
             }
             return FALSE;            
         };
-                        
+
         if (Request::METHOD_POST === $this->request->getMethod() && $formValid($this->request)) {            
             $sessToken = $this->session->getToken() ?? 1;
             $postToken = $this->request->getParam('token') ?? 2;
 //             $this->session->setToken(NULL);
-            
+
             if ($sessToken != $postToken) {                
-                $this->addMessage('Erreur : token mismatch');
-            } else {                
+                $this->addMessage('Erreur : les tokens de sécurité ne correspondent pas');
+            } else if ($this->session->getUserId() === NULL) {
+                $this->addMessage('Erreur : vous devez être connecté pour pouvoir eneregistrer un commentaire');
+            } else {      
                 $comment = Comment::arrayToEntity($this->request->getParams(), (new Comment()));
                 $comment->setArticle($article);
+                $comment->setUser($this->session->getUserId());
                 $commentService->save($comment);
                 $article = $articleService->fetchByIdWithComments(
                     $articleId,
@@ -69,6 +72,7 @@ class ArticleController extends BaseController
             'totalPages' => $totalPages,
             'token' => $token,
             'totalComments' => $totalComments,
+            'userUsername' => $this->session->getUserUsername(),            
         ]);
     }
 }

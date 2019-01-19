@@ -16,6 +16,10 @@ return [
         'controller' => 'ArticleController',
         'params' => ['article_id']
     ],
+    'connexion' => [
+        'uri' => '/^\/connexion$/',
+        'controller' => 'ConnexionController',        
+    ],    
     Router::DEFAULT_MATCH => [
         'uri' => '/^.*$/',
         'controller' => 'HomeController',

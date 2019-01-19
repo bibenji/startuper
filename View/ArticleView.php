@@ -5,7 +5,7 @@ namespace View;
 class ArticleView implements ViewInterface
 {
     public function render($parameters)
-    {
+    {		
         foreach ($parameters as $key => $value) {
             $$key = $value;
         }
@@ -122,7 +122,7 @@ class ArticleView implements ViewInterface
 					
 					<?php foreach ($article->getComments() as $comment) { ?>					
     					<div class="real-comment">
-    						<strong><?= NULL !== $comment->getUser()->getUsername() ? $comment->getUser()->getUsername() : $comment->getPseudo() ?></strong> <I><?php echo $comment->getDate()->format('l j F Y à H\hi') ?></I>
+    						<strong><?= NULL !== $comment->getUser()->getUsername() ? $comment->getUser()->getUsername() : $comment->getPseudo() ?></strong> <I><?= $locale->getFullDate($comment->getDate()) ?></I>
     						<p><?= $comment->getComment() ?></p>
     					</div>
 					<?php } ?>
@@ -138,14 +138,21 @@ class ArticleView implements ViewInterface
 					<br />
 					
 					<div id="comment-zone">
-						<h5>Laisser un commentaire</h5>
-						<form method="post">
-							<input type="hidden" name="token" value="<?= $token ?>" />
-							<input class="mb-2 form-control" name="pseudo" placeholder="Pseudo" type="text" />
-							<textarea rows="5" class="mb-2 form-control" name="comment">Ecrivez-ici votre commentaire.</textarea>
-							<input class="btn btn-default" type="reset" value="Effacer" />
-							<input class="btn btn-success" name="submit" type="submit" value="Soumettre" />
-						</form>
+
+						<?php if (!$userUsername) { ?>
+							<h5>Connectez-vous pour laisser un commentaire</h5>
+							<a href="/connexion">Connexion</a>
+						<?php } else { ?>
+							<h5>Laisser un commentaire</h5>
+							<form method="post">
+								<input type="hidden" name="token" value="<?= $token ?>" />								
+								<input class="mb-2 form-control" disabled name="pseudo" placeholder="Pseudo" type="text" value="<?= $userUsername ?>" />
+								<textarea rows="5" class="mb-2 form-control" name="comment">Ecrivez-ici votre commentaire.</textarea>
+								<input class="btn btn-default" type="reset" value="Effacer" />
+								<input class="btn btn-success" name="submit" type="submit" value="Soumettre" />
+							</form>
+						<?php } ?>
+						
 					</div>
 					
 				</div>

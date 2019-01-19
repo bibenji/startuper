@@ -19,7 +19,7 @@ class Session
             $_SESSION[$key] = $value[0];
         } elseif ('get' === substr($name, 0, 3)) {
             $key = lcfirst(substr($name, 3));
-            return $_SESSION[$key];            
+            return isset($_SESSION[$key]) ? $_SESSION[$key] : NULL;            
         } else {
             throw new Error('Erreur : méthode non-définie');
         }

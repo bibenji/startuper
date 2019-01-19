@@ -21,14 +21,18 @@ class Request
         $data = $_SERVER ?? [];
         
         $this->documentRoot = ['DOCUMENT_ROOT'] ?? '';        
-        $this->method = $data['REQUEST_METHOD'] ?? self::METHOD_GET;        
+        $this->method = $data['REQUEST_METHOD'] ?? self::METHOD_GET;                        
         
-        foreach ($_POST as $key => $value) {
-            $_POST['$key'] = htmlspecialchars($value);
-        }
-        
+        // foreach ($_POST as $key => $value) {            
+        //     $_POST['$key'] = htmlspecialchars(trim($value));
+        // }
+
         $this->params = array_merge($_GET, $_POST);   
-        
+
+        foreach ($this->params as $key => $value) {
+            $this->params[$key] = htmlspecialchars(trim($this->params[$key]));
+        }
+    
         if ($data['REQUEST_URI']) {
             $stdUri = $this->makeUri($data['REQUEST_URI']);
             $this->uri = $stdUri->uri;
@@ -51,7 +55,11 @@ class Request
             
             $explodedQueryParams = explode('&', $explodedUri[0]);
             foreach ($explodedQueryParams as $queryParam) {
-                list($key, $value) = explode('=', $queryParam);
+                // list($key, $value) = explode('=', $queryParam);
+                $explodedParam = explode('=', $queryParam);
+                $key = $explodedParam[0];
+                $value = isset($explodedParam[1]) ? $explodedParam[1] : NULL;
+
                 $stdUri->params[$key] = $value;
             }
         } else {
@@ -69,6 +77,11 @@ class Request
     public function getUri()
     {
         return $this->uri;
+    }
+
+    public function hasParam($key)
+    {
+        return array_key_exists($key, $this->params);
     }
     
     public function getParams()

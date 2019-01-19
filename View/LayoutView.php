@@ -6,77 +6,83 @@ class LayoutView implements ViewInterface
 {
     public function render($parameters)
     {
-        $content = $parameters ['content'];
+		$content = $parameters['content'];
+		$session = $parameters['session'];
         
         ob_start ();
-        
-        ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="https://getbootstrap.com/favicon.ico">
 
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="icon" href="https://getbootstrap.com/favicon.ico">
+		<title>Startuper - Blog</title>
 
-<title>Startuper - Blog</title>
+		<!-- Bootstrap core CSS -->
+		<link
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+			rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet">
+		<!-- Custom fonts for this template -->
+		<!-- <link href="assets/fonts/stylesheet.css"> -->
+		<!-- Custom styles for this template -->
+		<link href="/startuper.css" rel="stylesheet">
 
-<!-- Custom fonts for this template -->
-<!-- <link href="assets/fonts/stylesheet.css"> -->
-<!-- Custom styles for this template -->
-<link href="/startuper.css" rel="stylesheet">
+		<link rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+			integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+			crossorigin="anonymous">
+	</head>
 
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-	integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-	crossorigin="anonymous">
-</head>
+	<body>
 
-<body>
-
-	<navbar class="custom-navbar" data-bolded="0">
-	<ul id="menu-expanded">
-		<li><a id="description-link" href="/#before-description">A propos</a></li>
-		<li><a id="blog-link" href="/#before-blog">Blog</a></li>
-		<li><a id="skills-link" href="/#before-skills">Compétences</a></li>
-		<li><a id="technologies-link" href="/#before-technologies">Technologies</a></li>
-		<li><a id="experience-link" href="/#before-experience">Expérience</a></li>
-		<li><a id="education-link" href="/#before-education">Formation</a></li>
-		<li><a id="portfolio-link" href="/#before-portfolio">Portfolio</a></li>
-		<li><a id="interests-link" href="/#before-interests">Centres d'intérêts</a></li>
-		<li><a id="contact-link" href="/#before-contact">Contact</a></li>
-	</ul>
-	<ul id="menu-burger">
-		<li>
-			<button class="menu-burger-btn">
-				<i class="fas fa-bars"></i>
-			</button>
-		</li>
-	</ul>
-	</navbar>
+		<navbar class="custom-navbar" data-bolded="0">
+			<ul id="menu-expanded">
+				<li><a id="description-link" href="/#before-description">A propos</a></li>
+				<li><a id="blog-link" href="/#before-blog">Blog</a></li>
+				<li><a id="skills-link" href="/#before-skills">Compétences</a></li>
+				<li><a id="technologies-link" href="/#before-technologies">Technologies</a></li>
+				<li><a id="experience-link" href="/#before-experience">Expérience</a></li>
+				<li><a id="education-link" href="/#before-education">Formation</a></li>
+				<li><a id="portfolio-link" href="/#before-portfolio">Portfolio</a></li>
+				<li><a id="interests-link" href="/#before-interests">Centres d'intérêts</a></li>
+				<li><a id="contact-link" href="/#before-contact">Contact</a></li>
+				<li>		
+					<?php if ($session->getUserId()) { ?>
+						<a href="/connexion?deconnexion">Déonnexion (<?= $session->getUserUsername() ?>)</a>
+					<?php } else { ?>
+						<a href="/connexion">Connexion</a>
+					<?php } ?>
+				</li>
+			</ul>
+			<ul id="menu-burger">
+				<li>
+					<button class="menu-burger-btn">
+						<i class="fas fa-bars"></i>
+					</button>
+				</li>
+			</ul>
+		</navbar>
 
 		<?php echo $content ?>    		
         
-    <!-- Bootstrap core JavaScript ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-	<!--<script src="index_files/jquery-3.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-	<!--<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script>
+		<!-- Bootstrap core JavaScript ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script>
+		<!--<script src="index_files/jquery-3.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+		<!--<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+		<script>
         	$(function() {
         		
         		$('.menu-burger-btn, .custom-navbar a').click(function() {				
@@ -220,12 +226,10 @@ class LayoutView implements ViewInterface
         
         </script>
 
-</body>
-
+	</body>
 </html>
 
-<?php
-        
+<?php        
         $viewContent = ob_get_contents ();
         ob_end_clean ();
         
