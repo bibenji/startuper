@@ -2,7 +2,7 @@
 
 namespace View;
 
-class LayoutView implements ViewInterface
+class LayoutView extends AbstractView
 {
     public function render($parameters)
     {
@@ -198,9 +198,9 @@ class LayoutView implements ViewInterface
 						;
 						$(that).data('displayed', 1);
 					}					
-				}       		
-        		
-        		$(window).scroll(function() {
+				}
+
+				var scrollHandler = function() {
         			var that = this;
         			
         			if ($(window).scrollTop() > 10 && $('.custom-navbar').data('bolded') === 0) {
@@ -220,7 +220,12 @@ class LayoutView implements ViewInterface
 							displayAppearingElements(this);					
 						}						
 					});     			
-        		});        		
+        		}
+        		
+        		$(window).scroll(scrollHandler);
+
+				// handle scroll state at loading
+				scrollHandler();		
         		
         	});
         

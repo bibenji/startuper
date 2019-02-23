@@ -34,14 +34,7 @@ class UserService extends AbstractService
     {
         $stmt = $this->connection->pdo->prepare(Finder::select('users')->where('id = :id')->getSql());
         $stmt->execute(['id' => (int) $id]);
-        
-        // return $stmt->fetchObject('Entity\Article');
-        
-        // $stmt->setFetchMode(PDO::FETCH_INTO, new Article());
-        // return $stmt->fetch();
-        
-        // return Article::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new User());
-        
+                
         // secondary lookup for comments
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -100,7 +93,6 @@ class UserService extends AbstractService
         $insert = 'INSERT INTO ' . $instance->getTableName() . ' ';
 
         if ($this->flush($insert, $values)) {
-            // return $this->fetchById($id);
             return TRUE;            
         } else {
             return FALSE;

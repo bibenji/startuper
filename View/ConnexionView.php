@@ -2,7 +2,7 @@
 
 namespace View;
 
-class ConnexionView implements ViewInterface
+class ConnexionView extends AbstractView
 {
     private function generateTextField($name, $placeholder, $type, $params) {
         return '<input name="'.$name.'" placeholder="'.$placeholder.'" type="'.$type.'" value="'. ( isset($params[$name]) ? $params[$name] : '' ) .'" />';
