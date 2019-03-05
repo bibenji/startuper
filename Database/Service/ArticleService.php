@@ -42,12 +42,7 @@ class ArticleService extends AbstractService
         $sql = Finder::select('articles')->where('articles.id = :id')->getSql();        
         $stmt = $this->connection->pdo->prepare($sql);
         $stmt->execute(['id' => (int) $id]);
-        
-        // return $stmt->fetchObject('Entity\Article');
-        
-        // $stmt->setFetchMode(PDO::FETCH_INTO, new Article());
-        // return $stmt->fetch();
-        
+                
         return Article::arrayToEntity($stmt->fetch(PDO::FETCH_ASSOC), new Article());
     }
     
@@ -103,9 +98,9 @@ class ArticleService extends AbstractService
         
         if ($category) {
             $sql
-            ->join(Finder::LEFT_JOIN, 'article_category ac', 'ac.article_id', 'articles.id')
-            ->join(Finder::LEFT_JOIN, 'categories c', 'c.id', 'ac.category_id')
-            ->like('c.name', $category)
+                ->join(Finder::LEFT_JOIN, 'article_category ac', 'ac.article_id', 'articles.id')
+                ->join(Finder::LEFT_JOIN, 'categories c', 'c.id', 'ac.category_id')
+                ->like('c.name', $category)
             ;
         }
         

@@ -2,7 +2,7 @@
 
 namespace View;
 
-class BlogView implements ViewInterface
+class BlogView extends AbstractView
 {
     public function render($parameters)
     {

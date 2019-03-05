@@ -29,6 +29,7 @@ class BaseController
         $parameters['messages'] = $this->messages;
         
         $currentView = new $viewName();
+        $currentView->init(array_merge(['locale' => $this->locale], $parameters));
         $currentContent = $currentView->render(array_merge(['locale' => $this->locale], $parameters));
         $layoutView = new LayoutView();
         $fullView = $layoutView->render([

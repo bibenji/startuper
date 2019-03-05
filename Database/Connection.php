@@ -18,7 +18,7 @@ class Connection
         try {
             $this->pdo = new PDO($dsn, $config['user'], $config['password'], [PDO::ATTR_ERRMODE => $config['errmode']]);
         } catch (PDOException $e) {
-            var_dump($e->getMessage());
+            // var_dump($e->getMessage());
             exit();
         }
     }

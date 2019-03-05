@@ -2,7 +2,7 @@
 
 namespace View;
 
-class HomeView implements ViewInterface
+class HomeView extends AbstractView
 {
     const HOME_DATA_FILE = __DIR__ . '/../config/home.data.php';
     
@@ -11,7 +11,9 @@ class HomeView implements ViewInterface
         $data = include(self::HOME_DATA_FILE);
         
         $lastArticles = iterator_to_array($parameters['lastArticles']);
-        
+		
+		$locale = $parameters['locale'];
+		
         ob_start ();
 ?>
 
@@ -21,7 +23,7 @@ class HomeView implements ViewInterface
 	<div class="header-content">
 		<div class="row header-top">
 			<div class="col-md-5">
-				<img id="my-photo" src="/data/me_real.jpg" />
+				<img id="my-photo" src="/data/another_me.jpg" />
 			</div>
 			<div class="col-md-7">
 				<h2 id="header-bonjour">Bonjour !</h2>
@@ -47,7 +49,7 @@ class HomeView implements ViewInterface
 					<div class="col-sm-8"><?php echo $data['telephone'] ?></div>
 				</div>
 				<div class="mt-5 text-center">
-					<a href="/data/CV BILLETTE Benjamin - Developpeur Web.pdf" download="CV BILLETTE Benjamin - Developpeur Web.pdf" id="download-resume-btn" class="btn btn-lg">DOWNLOAD RESUME</a>
+					<a href="/data/CV BILLETTE Benjamin - Developpeur Web.pdf" download="CV BILLETTE Benjamin - Developpeur Web.pdf" id="download-resume-btn" class="btn btn-lg">Télécharger mon CV</a>
 				</div>
 			</div>
 		</div>
@@ -90,10 +92,13 @@ class HomeView implements ViewInterface
                     $smallButtons .= '
                         <div class="blog-carrousel-small-btn" data-index="'.($index).'"></div>';
             ?>			
-    			<div class="blog-carrousel-article" style="left: <?php echo $index*100 ?>%" data-init-left="<?php echo $index*100; ?>">
-    				<p class="blog-carrousel-article-date">Le <?= $article->getCreatedAt() ?></p>
-    				<p class="blog-carrousel-article-title"><?= $article->getTitle() ?></p>
-    				<p><a href="/article/<?= $article->getId() ?>">Lire l'article</a></p>
+				<div class="blog-carrousel-article" style="left: <?php echo $index*100 ?>%" data-init-left="<?php echo $index*100; ?>">					
+					<p class="blog-carrousel-article-date">Le <?= $locale->getShortDate($article->getCreatedAt()) ?></p>					
+					<a href="/article/<?= $article->getId() ?>">
+						<p class="blog-carrousel-article-title"><?= $article->getTitle() ?></p>
+						<p class="blog-carrousel-article-image"><img src="/data/articles/<?= $article->getPicture() ?>" /></p>					
+						<p>Lire l'article</p>
+					</a>
     			</div>
 			<?php } ?>			
 		</div>
@@ -152,7 +157,7 @@ class HomeView implements ViewInterface
 				<p><?= $experience['content'] ?></p>
 				<table class="table">
     				<?php foreach ($experience['missions'] as $index => $mission) { ?>
-    					<tr>
+    					<tr class="missionHeader">
 							<td><?= $mission['name'] ?></td>
 							<td>
 								<a class="#" data-toggle="collapse" href="#mission<?= $index ?>Details" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -186,7 +191,7 @@ class HomeView implements ViewInterface
 						Plus de détails
 					</a>			
 			
-					<div class="collapse" id="formation<?= $index ?>Details">				    			  		
+					<div class="formationDetails collapse" id="formation<?= $index ?>Details">				    			  		
 			  			<?= $formation['content'] ?>
     				</div>
 				</p>
@@ -204,7 +209,11 @@ class HomeView implements ViewInterface
 			<?php foreach ($data['portfolio']['content'] as $project) { ?>
 				<div class="col-md-4">
 			<img src="<?php echo $project['src'] ?>" width="100%" />
-			<h4><?php echo $project['name'] ?></h4>
+			<h4>
+				<a target="_blank" href="<?= $project['link'] ?>">
+					<?php echo $project['name'] ?>
+				</a>
+			</h4>
 		</div>
 			<?php } ?>
 		</div>

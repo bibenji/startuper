@@ -2,10 +2,10 @@
 
 namespace View;
 
-class ArticleView implements ViewInterface
-{
+class ArticleView extends AbstractView
+{	
     public function render($parameters)
-    {		
+    {	
         foreach ($parameters as $key => $value) {
             $$key = $value;
         }
@@ -122,7 +122,7 @@ class ArticleView implements ViewInterface
 					
 					<?php foreach ($article->getComments() as $comment) { ?>					
     					<div class="real-comment">
-    						<strong><?= NULL !== $comment->getUser()->getUsername() ? $comment->getUser()->getUsername() : $comment->getPseudo() ?></strong> <I><?= $locale->getFullDate($comment->getDate()) ?></I>
+    						<strong><?= NULL !== $comment->getUser()->getUsername() ? $comment->getUser()->getUsername() : $comment->getPseudo() ?></strong> <I><?= $this->locale->getFullDate($comment->getDate()) ?></I>
     						<p><?= $comment->getComment() ?></p>
     					</div>
 					<?php } ?>

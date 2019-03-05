@@ -10,19 +10,23 @@ use Engine\Captcha\Reverse;
 class ArticleController extends BaseController
 {
     const MAX_COMMENTS_PER_PAGE = 10;
+    const DEFAULT_PAGE = 1;
+
+    const FAKE_SESSION_TOKEN = 1;
+    const FAKE_POST_TOKEN = 2;
     
     public function handle($articleId)
     {           
         $commentService = new CommentService($this->connection);
         
-        $currentPage = $this->request->getParam('page') ?? 1;
+        $currentPage = $this->request->getParam('page') ?? self::DEFAULT_PAGE;
         $totalComments = $commentService->getTotalCommentsForArticle($articleId);
         $totalPages = ceil(((int) $totalComments) / self::MAX_COMMENTS_PER_PAGE);               
         
         $articleService = new ArticleService($this->connection);        
         $article = $articleService->fetchByIdWithComments(
             $articleId,
-            ($currentPage-1)*self::MAX_COMMENTS_PER_PAGE,
+            ($currentPage - 1) * self::MAX_COMMENTS_PER_PAGE,
             self::MAX_COMMENTS_PER_PAGE
         );
 
@@ -45,8 +49,8 @@ class ArticleController extends BaseController
         };
 
         if (Request::METHOD_POST === $this->request->getMethod() && $formValid($this->request)) {            
-            $sessToken = $this->session->getToken() ?? 1;
-            $postToken = $this->request->getParam('token') ?? 2;
+            $sessToken = $this->session->getToken() ?? self::FAKE_SESSION_TOKEN;
+            $postToken = $this->request->getParam('token') ?? self::FAKE_POST_TOKEN;
 //             $this->session->setToken(NULL);
 
             if ($sessToken != $postToken) {                
@@ -60,7 +64,7 @@ class ArticleController extends BaseController
                 $commentService->save($comment);
                 $article = $articleService->fetchByIdWithComments(
                     $articleId,
-                    ($currentPage-1)*self::MAX_COMMENTS_PER_PAGE,
+                    ($currentPage - 1) * self::MAX_COMMENTS_PER_PAGE,
                     self::MAX_COMMENTS_PER_PAGE
                 );
             }

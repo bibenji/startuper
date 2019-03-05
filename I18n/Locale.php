@@ -11,7 +11,7 @@ class Locale extends PhpLocale
     const FALLBACK_LOCALE = 'fr-FR';
 
     const DATE_TYPE_FULL = IntlDateFormatter::FULL;
-    const DATE_TYPE_SHORT = IntlDateFormatter::SHORT;
+    const DATE_TYPE_SHORT = IntlDateFormatter::SHORT;    
 
     const ERROR_INTL_DATE_FMT_CREATION = 'Erreur lors de l\'instanciation du formatteur de date international';   
 

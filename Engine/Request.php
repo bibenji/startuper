@@ -23,10 +23,6 @@ class Request
         $this->documentRoot = ['DOCUMENT_ROOT'] ?? '';        
         $this->method = $data['REQUEST_METHOD'] ?? self::METHOD_GET;                        
         
-        // foreach ($_POST as $key => $value) {            
-        //     $_POST['$key'] = htmlspecialchars(trim($value));
-        // }
-
         $this->params = array_merge($_GET, $_POST);   
 
         foreach ($this->params as $key => $value) {
