@@ -209,7 +209,11 @@ class HomeView extends AbstractView
 			<?php foreach ($data['portfolio']['content'] as $project) { ?>
 				<div class="col-md-4">
 			<img src="<?php echo $project['src'] ?>" width="100%" />
-			<h4><?php echo $project['name'] ?></h4>
+			<h4>
+				<a target="_blank" href="<?= $project['link'] ?>">
+					<?php echo $project['name'] ?>
+				</a>
+			</h4>
 		</div>
 			<?php } ?>
 		</div>

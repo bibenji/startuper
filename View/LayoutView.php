@@ -22,7 +22,7 @@ class LayoutView extends AbstractView
 		<meta name="author" content="">
 		<link rel="icon" href="https://getbootstrap.com/favicon.ico">
 
-		<title>Startuper - Blog</title>
+		<title>BBDev</title>
 
 		<!-- Bootstrap core CSS -->
 		<link
